@@ -36,7 +36,8 @@ export const currentUser = async (
 	res: Response,
 	next: NextFunction
 ) => {
-	if (req.body.type === InteractionType.PING) return next()
+	if (req.body.type === InteractionType.PING || !req.body?.member?.user)
+		return next()
 	req.user = req.body.member.user
 	req.user.discord_id = req.body.member.user.id
 
