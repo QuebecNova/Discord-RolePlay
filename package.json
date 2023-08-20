@@ -3,6 +3,10 @@
 	"version": "1.0.0",
 	"description": "Discord roleplay bot",
 	"main": "src/index.ts",
+  "engines" : { 
+    "node" : ">=20.0.0 <=20.5.0"
+  },
+  "engineStrict": true,
 	"scripts": {
     "build": "npm i && npm run tsc",
     "tsc": "tsc",
