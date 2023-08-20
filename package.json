@@ -4,6 +4,9 @@
 	"description": "Discord roleplay bot",
 	"main": "src/index.ts",
 	"scripts": {
+    "build": "npm i && npm run tsc",
+    "tsc": "tsc",
+    "start:prod": "node build/index.js",
 		"start": "ts-node src/index.ts",
 		"register": "ts-node-dev src/commands.ts",
 		"dev": "ts-node-dev --poll src/index.ts",
