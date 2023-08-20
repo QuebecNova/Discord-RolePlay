@@ -7,10 +7,10 @@ import { currentUser } from './middlewares/currentUser'
 import { interactions } from './routes/interactions'
 import 'express-async-errors'
 import helmet from 'helmet'
-import ExpressMongoSanitize from 'express-mongo-sanitize'
 import xss from 'xss-clean'
 import hpp from 'hpp'
 import cors from 'cors'
+import { rateLimit } from 'express-rate-limit'
 
 export const app = express()
 
@@ -18,20 +18,23 @@ app.use(cors())
 
 app.options(process.env.FRONTEND_CORS_DOMAIN!, cors())
 
+const limiter = rateLimit({
+  max: 200,
+  windowMs: 60 * 60 * 1000,
+  message: 'Too many requests from this IP. Try again in 1 hour',
+});
+
+app.use(limiter);
+
 app.use(helmet())
-
-app.use(express.json({ limit: '10kb' }))
-
-app.use(ExpressMongoSanitize())
 
 app.use(xss())
 
 app.use(
-    hpp({
-        whitelist: [],
-    })
+	hpp({
+		whitelist: [],
+	})
 )
-
 
 app.get('/gateway', (req, res) => {
 	res.status(200).send({ status: 'OK' })
